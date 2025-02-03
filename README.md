@@ -52,7 +52,7 @@ Run tests with: `python manage.py test`
 
 ## Deployment
 
-The API is deployed at: []
+The API is deployed at: [https://number-api-zz2a.onrender.com/api/classify-number?number=371]
 
 ## Technologies Used
 
