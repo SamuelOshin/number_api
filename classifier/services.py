@@ -52,7 +52,7 @@ class NumberClassifier:
     def get_fun_fact(num: int) -> str:
         """Get fun fact from Numbers API."""
         try:
-            response = requests.get(f'http://numbersapi.com/{num}')
+            response = requests.get(f'http://numbersapi.com/{num}/math')
             return response.text
         except requests.RequestException:
             # Fallback fun fact if API fails
