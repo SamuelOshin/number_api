@@ -13,38 +13,44 @@ def classify_number(request):
         number = request.GET.get('number')
         
         # Validate input
-        if not number or not number.isdigit():
+        if number is None:
             return Response(
                 {
-                    "number": "alphabet",
-                    "error": True
+                    "error": True,
+                    "message": "No number provided."
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        # Convert to integer
-        num = int(number)
-        
-        # Create classifier instance
-        classifier = NumberClassifier()
+        # Convert to integer safely
+        try:
+            num = int(number)  # Allows negative numbers
+        except ValueError:
+            return Response(
+                {
+                    "error": True,
+                    "message": "Invalid input. Please enter a valid integer."
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
         # Get number properties
         response_data = {
             "number": num,
-            "is_prime": classifier.is_prime(num),
-            "is_perfect": classifier.is_perfect(num),
-            "properties": classifier.get_properties(num),
-            "digit_sum": classifier.digit_sum(num),
-            "fun_fact": classifier.get_fun_fact(num)
+            "is_prime": NumberClassifier.is_prime(num),
+            "is_perfect": NumberClassifier.is_perfect(num),
+            "properties": NumberClassifier.get_properties(num),
+            "digit_sum": NumberClassifier.digit_sum(num),
+            "fun_fact": NumberClassifier.get_fun_fact(num)
         }
         
-        return Response(response_data)
+        return Response(response_data, status=status.HTTP_200_OK)
         
     except Exception as e:
         return Response(
             {
-                "number": number if 'number' in locals() else None,
-                "error": True
+                "error": True,
+                "message": "An unexpected error occurred."
             },
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
