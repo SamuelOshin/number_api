@@ -30,7 +30,13 @@ class NumberClassifier:
     
     @staticmethod
     def digit_sum(num: int) -> int:
-        """Calculate sum of digits."""
+        """
+        Calculate sum of digits for a number, including negative numbers.
+        """
+        # Convert to absolute value to handle negative numbers
+        num = abs(num)
+        
+        # Convert to string and sum each digit
         return sum(int(digit) for digit in str(num))
     
     @staticmethod
