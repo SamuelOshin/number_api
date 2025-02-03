@@ -1,12 +1,13 @@
 import math
 import requests
-from typing import List, Dict
+from typing import List
 from functools import lru_cache
 
 class NumberClassifier:
     @staticmethod
     def is_armstrong(num: int) -> bool:
-        """Check if number is Armstrong number."""
+        """Check if number is an Armstrong number."""
+        num = abs(num)  # Convert to absolute value
         str_num = str(num)
         power = len(str_num)
         return num == sum(int(digit) ** power for digit in str_num)
@@ -14,7 +15,7 @@ class NumberClassifier:
     @staticmethod
     def is_prime(num: int) -> bool:
         """Check if number is prime."""
-        if num < 2:
+        if num < 2:  # Negative numbers and 0,1 are not prime
             return False
         for i in range(2, int(math.sqrt(num)) + 1):
             if num % i == 0:
@@ -24,19 +25,14 @@ class NumberClassifier:
     @staticmethod
     def is_perfect(num: int) -> bool:
         """Check if number is perfect."""
-        if num <= 1:
+        if num < 1:  # Negative numbers and 0 are not perfect numbers
             return False
         return sum(i for i in range(1, num) if num % i == 0) == num
     
     @staticmethod
     def digit_sum(num: int) -> int:
-        """
-        Calculate sum of digits for a number, including negative numbers.
-        """
-        # Convert to absolute value to handle negative numbers
-        num = abs(num)
-        
-        # Convert to string and sum each digit
+        """Calculate sum of digits for a number, including negative numbers."""
+        num = abs(num)  # Convert to absolute value
         return sum(int(digit) for digit in str(num))
     
     @staticmethod
@@ -62,6 +58,7 @@ class NumberClassifier:
             return response.text
         except requests.RequestException:
             # Fallback fun fact if API fails
+            num = abs(num)  # Convert to absolute value for meaningful facts
             if NumberClassifier.is_armstrong(num):
                 digits = str(num)
                 power = len(digits)
